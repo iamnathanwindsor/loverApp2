@@ -15,7 +15,9 @@ app.factory('Auth', function($firebaseAuth, $firebaseObject, $firebaseArray, $st
         },
 
         login: function() {
-            return auth.$signInWithPopup('facebook')
+            var provider = new firebase.auth.FacebookAuthProvider();
+            provider.addScope('public_profile, email, user_location, user_birthday, user_photos, user_about_me');
+            return auth.$signInWithPopup(provider)
                 .then(function(result) {
                     var accessToken = result.credential.accessToken;
                     var user = Auth.getProfile(result.user.uid).$loaded();
